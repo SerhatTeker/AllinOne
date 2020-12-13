@@ -1,14 +1,16 @@
-<div class="post-header text-center" >
+<div class="post-header text-center">
   <ul class="post-meta li-x">
     {{ if .Params.categories }}
-      {{ range .Params.categories }}
-        <li><a href="{{ "categories/" | absLangURL }}{{ . | urlize }}"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> {{ . }} </a></li>
-      {{ end }}
+    {{ range .Params.categories }}
+    <li><a href="{{ "categories/" | absLangURL }}{{ . | urlize }}"><i class="fas fa-folder-open pr-1"
+          aria-hidden="true"></i> {{ . }} </a></li>
+    {{ end }}
     {{ end }}
     {{ if .Params.series }}
-      {{ range .Params.series }}
-        <li><a href="{{ "series/" | absLangURL }}{{ . | urlize }}"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>{{ . }}</a></li>
-      {{ end }}
+    {{ range .Params.series }}
+    <li><a href="{{ "series/" | absLangURL }}{{ . | urlize }}"><i class="fas fa-bookmark pr-1"
+          aria-hidden="true"></i>{{ . }}</a></li>
+    {{ end }}
     {{ end }}
   </ul>
 
@@ -16,20 +18,35 @@
 
   <ul class="post-meta li-x mt-1">
     {{ if and .Site.Params.dateformfull .Site.Params.dateform }}
-      <li>{{ .Date.Format .Site.Params.dateform }}</li>
+    <li>{{ .Date.Format .Site.Params.dateformcustom }}</li>
     {{ else }}
-      <li>{{ .Date.Format "Jan 2, 2006" }}</li>
+    <li>{{ .Date.Format "Jan 2, 2006" }}</li>
     {{ end }}
 
     {{ if not .Site.Params.noshowreadtime }}
-      <li class="middot"></li>
-      <li>{{ i18n "readingTime" .ReadingTime }}</li>
+    <li class="middot"></li>
+    <li>{{ i18n "readingTime" .ReadingTime }}</li>
     {{ end }}
   </ul>
-  {{ with .Params.img }}
+
+
+  <!-- Git Info -->
+  {{- if .GitInfo }}
+  {{ $gitdateform := .Site.Params.dateformedited }}
+  <!-- Commit Info -->
+  <ul class="post-meta li-x mt-1">
+    <ul class="post-meta li-x mt-1">
+      <li>
+        {{ dateFormat $gitdateform .GitInfo.AuthorDate.Local }}
+      </li>
+    </ul>
+    <!-- /Commit Info -->
+    {{- end }}
+    <!-- /Git Info -->
+    {{ with .Params.img }}
     <div class="view">
       <img src="{{ . | absURL }}" />
     </div>
-  {{ end }}
+    {{ end }}
 
 </div>
